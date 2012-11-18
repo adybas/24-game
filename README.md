@@ -1,5 +1,6 @@
 24-game
 =============
+[![Build Status](https://secure.travis-ci.org/andrewringler/24-game.png?branch=master)](https://travis-ci.org/andrewringler/24-game)
 
 Finds solutions to the [24 Card Game](http://en.wikipedia.org/wiki/24_Game).
 
