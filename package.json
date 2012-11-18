@@ -1,0 +1,14 @@
+{
+  "name": "24-Game",
+  "description": "24 Game",
+  "version": "0.0.1",
+  "engines": {
+    "node": "~0.8.11"
+  },
+  "devDependencies": {
+			"mocha": "1.7.0"
+	},
+	"scripts": {
+			"test": "make test"
+	}
+}
