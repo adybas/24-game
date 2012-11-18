@@ -10,7 +10,7 @@ For example if you drew the cards 3,3,3,8
 one can make this sum to 24 by using the following set of operations (3*8) + (3-3).
 
 I decided to write this program after playing the game and being dealt 8, Jack, 7, 6 (or 8,1,7,6), and not
-being to find a solution. So I wrote a program to try and find one, and no, there does not appear to be a solution for 8, Jack, 7, 6.
+being able to find a solution. So I wrote a program to try and find one, and no, there does not appear to be a solution for 8, Jack, 7, 6.
 
 ### Get Started
 
@@ -36,4 +36,4 @@ have 320 orderings to verify. But for an input of 1 2 3 4 we have 7680 orderings
 This number could be greatly pruned of some of the more obviously equivalent orderings to make this program more efficient.
 For example 3 2 + 8 8 + + and 2 3 + 8 8 + + are equivalent via commutativity and 3 3 + 8 8 + + and 3 3 8 8 + + + are
 equivalent via associativity. As well there is a lot of domain knowledge that could be taken advantage of. For example with a
-hand of 1,1,1,1 we know that 1*1*1 = 1 is the highest possible result which is less then 24 so could never have a winning combination.
+hand of 1,1,1,1 we know the numbers are too small to ever equal 24.
