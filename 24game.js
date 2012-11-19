@@ -1,6 +1,6 @@
 var permutation = require("./permutations")
-var calc = require("./calculator")
-var _ = require("./lib/underscore-min.js")
+	,calc = require("./calculator")
+	,_ = require("./lib/underscore-min.js");
 
 // all possible postFix orderings of operators & operands
 //
@@ -23,40 +23,63 @@ var _ = require("./lib/underscore-min.js")
 // so we have the permutations of the union of two sets as
 // abc++, ab+c+, a+b+c, ...
 //
-var postFixOrderings = function(operands, operators) {
+var postFixOrderings = function(operands, operators, skipCheckIsValid) {
 	if(operators.length === 0 || operands.length <= 1){
-		return permutation.permutation(operands)
+		return permutation.permutation(operands);
 	}
 
-	var operatorsChoose = permutation.choose(operators, operands.length-1)
-	var orderings = []
+	var additiveAssociativity;
+	var operatorsChoose = permutation.choose(operators, operands.length-1);
+	var orderings = [];
 	for(var i=0; i<operatorsChoose.length; i++){
-		var possibleOrderings = permutation.permutation(operands.concat(operatorsChoose[i]))
+		var possibleOrderings = permutation.permutation(operands.concat(operatorsChoose[i]));
+		// var possibleOrderings = _.uniq(possibleOrderings, false, function(ordering){
+		// 		// additive associativity abcd+++ is equivalent to any placement of +
+		// 		ordering
+		// 		return val.join()
+		// 	})
+		
 		for(var j=0; j<possibleOrderings.length; j++){
 			var possibleOrdering = possibleOrderings[j]
-			if(calc.isValidPostfix(possibleOrdering)){
-				orderings.push(possibleOrdering)		
+			if(skipCheckIsValid){
+				orderings.push(possibleOrdering);				
+			} else if(calc.isValidPostfix(possibleOrdering)){
+				orderings.push(possibleOrdering);	
 			}
+		}			
+	}
+	
+	return orderings;
+}
+
+var GOAL = 24;
+var findSolution = function (cards, operators) {
+	var solutions = [],
+		possibleSolutions = postFixOrderings(cards, operators, true);
+	for(var i=0; i<possibleSolutions.length; i++){
+		var result = calc.evaluatePostfix(possibleSolutions[i]);
+		if(result && result === GOAL){
+			solutions.push(possibleSolutions[i]);
 		}
 	}
-	return _.uniq(orderings, false, function(val){
+	
+	return _.uniq(solutions, false, function(val){
 		return val.join()
 	})
 }
 
-var GOAL = 24
-var findSolution = function (cards, operators) {
-	var solutions = []
-	var possibleSolutions = postFixOrderings(cards, operators)
+var hasSolution = function(cards, operators) {
+	var possibleSolutions = postFixOrderings(cards, operators);
 	for(var i=0; i<possibleSolutions.length; i++){
-		var result = calc.evaluatePostfix(possibleSolutions[i])
+		var result = calc.evaluatePostfix(possibleSolutions[i]);
 		if(result === GOAL){
-			solutions.push(possibleSolutions[i])
+			return true;
 		}
 	}
-	
-	return solutions
+
+	return false;
 }
 
-exports.findSolution = findSolution
-exports.postFixOrderings = postFixOrderings
+exports.findSolution = findSolution;
+exports.postFixOrderings = postFixOrderings;
+exports.hasSolution = hasSolution;

@@ -37,10 +37,5 @@ describe('calculator', function(){
 	  assert.equal(true, calc.isValidPostfix([1]))
 	  assert.equal(true, calc.isValidPostfix([1,2,'+']))
     })
-	it('valids with variables', function(){
-		assert.equal(true, calc.isValidPostfix(['a']))
-		assert.equal(true, calc.isValidPostfix(['a','b','+']))
-	})
-
   })
 })

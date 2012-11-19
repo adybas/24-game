@@ -42,22 +42,11 @@ var evaluatePostfix = function(expression){
 }
 
 // isValidPostfix
-// supports numbers or variables as operands and +-*/ as operators
+// supports numbers as operands and +-*/ as operators
 // returns false for invalid postfix expression
 // otherwise true
 var isValidPostfix = function(expression){
-	var operatorRegex = /^[\+\-\*\/]{1}$/;
-	var expressionWithNumbers = expression.slice()
-	for(var i=0; i<expressionWithNumbers.length; i++){
-		var op = expressionWithNumbers[i]
-		if(typeof op === 'string' && op.match(operatorRegex)){
-			// nothing, we have an operator
-		}else{
-			// we don't have an operator, assume a number of variable, replace with the number 1
-			expressionWithNumbers[i] = 1
-		}
-	}
-	return evaluatePostfix(expressionWithNumbers) !== null
+	return evaluatePostfix(expression) !== null
 }
 
 exports.evaluatePostfix = evaluatePostfix

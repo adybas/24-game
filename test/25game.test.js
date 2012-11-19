@@ -3,17 +3,17 @@ var game = require("../24game")
 
 describe('24 Game', function(){
 	describe('postFixOrderings', function(){
-		it('postFixOrderings of a is a', function(){
-		 assert.deepEqual([['a']], game.postFixOrderings(['a'],[]))
+		it('postFixOrderings of 1 is 1', function(){
+		 assert.deepEqual([[1]], game.postFixOrderings([1],[]))
 		})
-		it('postFixOrderings of a is a, no matter the operators', function(){
-		 assert.deepEqual([['a']], game.postFixOrderings(['a'],['+','-']))
+		it('postFixOrderings of 1 is 1, no matter the operators', function(){
+		 assert.deepEqual([[1]], game.postFixOrderings([1],['+','-']))
 		})
-		it('postFixOrderings of a,b with + filters out invalid postFix', function(){
-		 assert.deepEqual([['a','b','+'],['b','a','+']], game.postFixOrderings(['a','b'],['+']))
+		it('postFixOrderings of 1,2 with + filters out invalid postFix', function(){
+		 assert.deepEqual([[1,2,'+'],[2,1,'+']], game.postFixOrderings([1,2],['+']))
 		})
-		it('postFixOrderings of a,b with +- filters out invalid postFix', function(){
-		 	assert.deepEqual([['a','b','+'],['b','a','+'],['a','b','-'],['b','a','-']], game.postFixOrderings(['a','b'],['+','-']))
+		it('postFixOrderings of 1,2 with +- filters out invalid postFix', function(){
+		 	assert.deepEqual([[1,2,'+'],[2,1,'+'],[1,2,'-'],[2,1,'-']], game.postFixOrderings([1,2],['+','-']))
 		})
 	})
 	
@@ -31,11 +31,6 @@ describe('24 Game', function(){
 		var solution = game.findSolution([3,3,3,8], ['+','-','*','/'])
 	 	assert(solution.length > 0)
 	  })
-	  it('3, 3, 8, 8 has a solution for 24', function(){
-		var solution = game.findSolution([3,3,3,8], ['+','-','*','/'])
-		// console.log('Solutions for 3, 3, 8, 8',solution)
-	 	assert(solution.length > 0)
-	  })
 	  it('1, 1, 1, 1 has no solutions for 24', function(){
 		var solution = game.findSolution([1,1,1,1], ['+','-','*','/'])
 	 	assert(solution.length === 0)
@@ -43,6 +38,18 @@ describe('24 Game', function(){
 	  it('8, 1, 7, 6 has no solutions for 24', function(){
 		var solution = game.findSolution([8,1,7,6], ['+','-','*','/'])
 	 	assert(solution.length === 0)
+	  })
+	})
+	
+	describe('hasSolution', function(){
+	  it('12, 12 has a solution for 24', function(){
+	 	assert(game.hasSolution([12,12], ['+']))
+	  })
+	  it('3, 3, 8, 8 has a solution for 24', function(){
+	 	assert(game.hasSolution([3,3,3,8], ['+','-','*','/']))
+	  })
+	  it('8, 1, 7, 6 has no solutions for 24', function(){
+	 	assert(!game.hasSolution([8,1,7,6], ['+','-','*','/']))
 	  })
 	})
 })
