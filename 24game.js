@@ -38,15 +38,17 @@ var postFixOrderings = function(operands, operators, skipCheckIsValid) {
 		var possibleOrderings;
 		
 		// additive associativity abcd+++ is equivalent to any placement of +
-		if(_.isEqual(allPlus)){
+		// when all operators are +
+		if(_.isEqual(allPlus, curOperators)){
 			var operandsForPlus = permutation.permutation(operands);
-			possibleOrderings = _.map(e, function(operandsForPlus){ 
+			possibleOrderings = _.map(operandsForPlus, function(e){ 
 				return e.concat(allPlus); 
 			});
 		// multiplicitive associativity abcd*** is equivalent to any placement of *
-		} else if(_.isEqual(allTimes)){
+		// when all operators are *
+		} else if(_.isEqual(allTimes, curOperators)){
 			var operandsForTimes = permutation.permutation(operands);
-			possibleOrderings = _.map(e, function(operandsForTimes){ 
+			possibleOrderings = _.map(operandsForTimes, function(e){ 
 				return e.concat(allTimes); 
 			});
 		} else {

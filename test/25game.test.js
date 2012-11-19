@@ -15,6 +15,22 @@ describe('24 Game', function(){
 		it('postFixOrderings of 1,2 with +- filters out invalid postFix', function(){
 		 	assert.deepEqual([[1,2,'+'],[2,1,'+'],[1,2,'-'],[2,1,'-']], game.postFixOrderings([1,2],['+','-']))
 		})
+		it('postFixOrderings of 1,2,3 with + only returns 1 possible placement of +', function(){
+		 	assert.deepEqual([ [ 1, 2, 3, '+', '+' ],
+			  [ 1, 3, 2, '+', '+' ],
+			  [ 2, 1, 3, '+', '+' ],
+			  [ 2, 3, 1, '+', '+' ],
+			  [ 3, 1, 2, '+', '+' ],
+			  [ 3, 2, 1, '+', '+' ] ], game.postFixOrderings([1,2,3],['+']))
+		})
+		it('postFixOrderings of 1,2,3 with * only returns 1 possible placement of *', function(){
+		 	assert.deepEqual([ [ 1, 2, 3, '*', '*' ],
+			  [ 1, 3, 2, '*', '*' ],
+			  [ 2, 1, 3, '*', '*' ],
+			  [ 2, 3, 1, '*', '*' ],
+			  [ 3, 1, 2, '*', '*' ],
+			  [ 3, 2, 1, '*', '*' ] ], game.postFixOrderings([1,2,3],['*']))
+		})
 	})
 	
 	describe('findSolution', function(){
@@ -28,16 +44,13 @@ describe('24 Game', function(){
 	 	assert.deepEqual([[4,4,"+",3,"*"],[3,4,4,"+","*"]], game.findSolution([4,4,3], ['+','-','*','/']))
 	  })
 	  it('3, 3, 8, 8 has a solution for 24', function(){
-		var solution = game.findSolution([3,3,3,8], ['+','-','*','/'])
-	 	assert(solution.length > 0)
+	 	assert(game.findSolution([3,3,3,8], ['+','-','*','/']).length > 0)
 	  })
 	  it('1, 1, 1, 1 has no solutions for 24', function(){
-		var solution = game.findSolution([1,1,1,1], ['+','-','*','/'])
-	 	assert(solution.length === 0)
+	 	assert(game.findSolution([1,1,1,1], ['+','-','*','/']).length === 0)
 	  })
 	  it('8, 1, 7, 6 has no solutions for 24', function(){
-		var solution = game.findSolution([8,1,7,6], ['+','-','*','/'])
-	 	assert(solution.length === 0)
+	 	assert(game.findSolution([8,1,7,6], ['+','-','*','/']).length === 0)
 	  })
 	})
 	
