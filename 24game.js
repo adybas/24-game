@@ -22,34 +22,50 @@ var permutation = require("./permutations")
 // and [[a,b,c],[a,c,b],[b,a,c], ... [c,b,a]] orderings or operands
 // so we have the permutations of the union of two sets as
 // abc++, ab+c+, a+b+c, ...
-//
 var postFixOrderings = function(operands, operators, skipCheckIsValid) {
 	if(operators.length === 0 || operands.length <= 1){
 		return permutation.permutation(operands);
 	}
 
-	var additiveAssociativity;
+	var allPlus = [];
+	_(operands.length-1).times(function(n){ allPlus.push('+') });
+	var allTimes = [];
+	_(operands.length-1).times(function(n){ allTimes.push('*') });
 	var operatorsChoose = permutation.choose(operators, operands.length-1);
-	var orderings = [];
+	var result = [];
 	for(var i=0; i<operatorsChoose.length; i++){
-		var possibleOrderings = permutation.permutation(operands.concat(operatorsChoose[i]));
-		// var possibleOrderings = _.uniq(possibleOrderings, false, function(ordering){
-		// 		// additive associativity abcd+++ is equivalent to any placement of +
-		// 		ordering
-		// 		return val.join()
-		// 	})
+		var curOperators = operatorsChoose[i];
+		var possibleOrderings;
 		
+		// additive associativity abcd+++ is equivalent to any placement of +
+		if(_.isEqual(allPlus)){
+			var operandsForPlus = permutation.permutation(operands);
+			possibleOrderings = _.map(e, function(operandsForPlus){ 
+				return e.concat(allPlus); 
+			});
+		// multiplicitive associativity abcd*** is equivalent to any placement of *
+		} else if(_.isEqual(allTimes)){
+			var operandsForTimes = permutation.permutation(operands);
+			possibleOrderings = _.map(e, function(operandsForTimes){ 
+				return e.concat(allTimes); 
+			});
+		} else {
+			// compute all possible orderings
+			possibleOrderings = permutation.permutation(operands.concat(curOperators));
+		}
+		
+		// add valid orderings to result
 		for(var j=0; j<possibleOrderings.length; j++){
 			var possibleOrdering = possibleOrderings[j]
 			if(skipCheckIsValid){
-				orderings.push(possibleOrdering);				
+				result.push(possibleOrdering);				
 			} else if(calc.isValidPostfix(possibleOrdering)){
-				orderings.push(possibleOrdering);	
+				result.push(possibleOrdering);	
 			}
 		}			
 	}
 	
-	return orderings;
+	return result;
 }
 
 var GOAL = 24;
